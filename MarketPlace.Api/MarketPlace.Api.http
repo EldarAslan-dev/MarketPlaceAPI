@@ -1,0 +1,75 @@
+@host = http://localhost:8080
+
+POST {{host}}/api/users
+Content-Type: application/json
+
+{
+  "fullName": "Demo Seller",
+  "email": "seller@example.com",
+  "role": "Seller"
+}
+
+###
+POST {{host}}/api/users
+Content-Type: application/json
+
+{
+  "fullName": "Demo Buyer",
+  "email": "buyer@example.com",
+  "role": "Buyer"
+}
+
+###
+POST {{host}}/api/stores
+Content-Type: application/json
+
+{
+  "ownerId": 1,
+  "name": "Demo Store"
+}
+
+###
+POST {{host}}/api/categories
+Content-Type: application/json
+
+{
+  "name": "Electronics"
+}
+
+###
+POST {{host}}/api/products
+Content-Type: application/json
+
+{
+  "sellerId": 1,
+  "storeId": 1,
+  "categoryId": 1,
+  "name": "Laptop",
+  "price": 1499.99,
+  "stockQuantity": 10
+}
+
+###
+GET {{host}}/api/stores
+
+###
+GET {{host}}/api/stores/1/products
+
+###
+GET {{host}}/api/products?search=Laptop&categoryId=1&minPrice=1000&maxPrice=2000
+
+###
+POST {{host}}/api/orders
+Content-Type: application/json
+
+{
+  "buyerId": 2,
+  "productId": 1,
+  "quantity": 2
+}
+
+###
+GET {{host}}/api/products/1
+
+###
+GET {{host}}/api/users/2/orders

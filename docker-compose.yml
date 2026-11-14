@@ -1,0 +1,27 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWORD:-ChangeMe_2026!}
+      MSSQL_PID: Developer
+    ports:
+      - "127.0.0.1:14333:1433"
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+
+  api:
+    build: .
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_HTTP_PORTS: "8080"
+      ApplyMigrationsOnStartup: "true"
+      ConnectionStrings__DefaultConnection: "Server=sqlserver,1433;Database=MarketPlaceDb;User Id=sa;Password=${MSSQL_SA_PASSWORD:-ChangeMe_2026!};Encrypt=True;TrustServerCertificate=True"
+    ports:
+      - "127.0.0.1:8080:8080"
+    depends_on:
+      - sqlserver
+    restart: on-failure
+
+volumes:
+  sqlserver-data:
